@@ -13,7 +13,6 @@ pylint-django = "*"
 mysqlclient = "*"
 djangorestframework = "*"
 django-ckeditor = "*"
-pillow = "*"
 
 [requires]
 python_version = "3.7"

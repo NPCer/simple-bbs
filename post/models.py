@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from read_statistics.models import ReadNumExpandMethod
-from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
@@ -16,7 +16,7 @@ class LabPost(models.Model, ReadNumExpandMethod):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, default=1)
     readed_num = models.IntegerField(default=0)
     title = models.CharField(max_length=30, default='在此输入贴子标题')
-    content = RichTextUploadingField()
+    content = RichTextField()
     post_type = models.ForeignKey(
         LabPostType, on_delete=models.DO_NOTHING, null=True)
     created_data = models.DateTimeField(auto_now_add=True)
