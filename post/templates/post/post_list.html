@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load is_in_list %}
+{% block post_active %}class='active'{% endblock post_active %}
+{% comment %} 页面主要内容 {% endcomment %}
+{% block content %}
+{% block header_extends %}
+<link rel="stylesheet" href=" {% static 'post/post.css' %} ">
+{% endblock header_extends %}
+<div class="header-banner">
+    <div class="container">
+        <h1>资源论坛</h1>
+        <p>可通过筛选器快速找到对应类别的贴子</p>
+        <p>嚯嚯</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body filter-item">
+
+                    {% comment %} 贴子筛选选择框 {% endcomment %}
+                    <div class='filter-item-input'>
+                        <form action="/post" method="get">
+                            {% for post_type in post_types %}
+                            {% comment %} 如果类型在type中则勾选 {% endcomment %}
+                            <li>
+                                {% if post_type.id|is_in_list:post_types_id %}
+                                <input id="type_{{ post_type.id }}" type="checkbox" checked='checked' name="type"
+                                    value="{{ post_type.id }}">
+                                {% else %}
+                                <input id="type_{{ post_type.id }}" type="checkbox" name="type"
+                                    value="{{ post_type.id }}">
+                                {% endif %}
+                                <label for="type_{{ post_type.id }}">{{ post_type.type_name }}</label>
+                            </li>
+                            {% empty %}
+                            <li>吃掉分类的人找到了?</li>
+                            {% endfor %}
+                            {% comment %} <div class='filter-item-submit-button'> {% endcomment %}
+                                <li>
+                                    <input class='btn btn-primary btn-xs' type="submit" value="搜索">
+                                </li>
+                                <li><a class="btn btn-success btn-xs" href="/post/">清除条件</a></li>
+                            {% comment %} </div> {% endcomment %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-12 post-right-list">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    嚯嚯，广告位招租
+                </div>
+                <div class="panel-body post-types">
+                    {% comment %} <ul class='post-types'>
+                        {% for post_type in post_types %}
+                        <li>
+                            <a href=" {% url 'type_post' post_type.id %} ">{{ post_type.type_name }}</a>
+                        </li>
+                        {% empty %}
+                        <li>吃掉分类的人找到了?</li>
+                        {% endfor %}
+                    </ul> {% endcomment %}
+                    <div style='align-items: center'>
+                        <img src="https://cn.bing.com/th?id=OIP.M_S1nHjCuD33QRdHVInHAgHaHa&pid=Api&rs=1&p=0" alt="NM$L"
+                            style='width:45%;'>
+                        <img src="https://cn.bing.com/th?id=OIP.Yfyy9oBtKJePD4fgbQ-T0AHaHa&pid=Api&rs=1&p=0" alt="HHH"
+                            style='width:45%;'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-9 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% for post in posts %}
+                    <div class="post">
+                        <div class="blog-title">
+                            <a href=" {% url 'post_detail' post.id %} ">{{ post.title }}</a>
+                        </div>
+                        <div class="blog_preview">
+                            {{ post.content|striptags|truncatechars:120 }}
+                        </div>
+                        <div class="blog-tags">
+                            <!-- 文章类型 -->
+                            <span class="glyphicon glyphicon-tag"></span>
+                            <a href=" {% url 'type_post' post.post_type.id %} ">{{ post.post_type.type_name }}</a>
+                            &nbsp;&nbsp;
+                            <!-- 文章日期 -->
+                            <span class="glyphicon glyphicon-time"></span>
+                            {{ post.created_data|date:'Y-m-d' }}
+                            &nbsp;&nbsp;
+                            <span>阅读 : {{ post.get_read_num }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>哦豁，莫得，看看别的吧~</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

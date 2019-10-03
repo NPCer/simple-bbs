@@ -1,0 +1,87 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>
+            {% comment %} 标题 {% endcomment %} {% block title %} 资源共享BBS {% endblock title %}
+        </title>
+        <link rel="stylesheet" href=" {% static 'bootstrap-3.3.7/css/bootstrap.min.css' %} " />
+        <link rel="stylesheet" href=" {% static 'style.css' %} " />
+        {% comment %} 额外的引用头 {% endcomment %} 
+        {% block header_extends %} {% endblock header_extends %}
+    </head>
+
+    <body>
+        <div class="all">
+            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{% url 'home' %}">资源共享BBS</a>
+                        <button
+                            class="navbar-toggle collapsed"
+                            data-toggle="collapse"
+                            data-target="#navbar-collapse"
+                        >
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div id="navbar-collapse" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            {% comment %} 激活active某项导航 {% endcomment %}
+                            <li {% block home_active %}{% endblock home_active %}>
+                                <a href=" {% url 'home' %} ">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    首页
+                                </a>
+                            </li>
+                            <li {% block post_active %}{% endblock post_active %}>
+                                <a href=" {% url 'post_list' %} ">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    贴子
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% comment %} 页面主要内容 {% endcomment %} {% block content %} {% endblock content %}
+
+            <div id="footer" class="page-bottom">
+                <div class="container">
+                    <div class="col-sm-4 hidden-xs">
+                        <div class="content">
+                            <h4 class="title">关于本站</h4>
+                            <p>1、基于Django+Bootstrap开发</p>
+                            <p>2、主要为实验室成员资源分享</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="content">
+                            <h4 class="title">建议反馈</h4>
+                            <p>1、发邮件到xxxxxxx@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hidden-xs">
+                        <div class="content">
+                            <h4 class="title">友情链接</h4>
+                            <p><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    <span>Welcome to visit resource_bbs website © 2019</span>
+                </div>
+            </div>
+        </div>
+        <script src=" {% static 'jquery-1.12.4.min.js' %} "></script>
+        <script src=" {% static 'bootstrap-3.3.7/js/bootstrap.min.js' %} "></script>
+    </body>
+</html>

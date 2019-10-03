@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ post.title }}
+{% endblock title %}
+{% block post_active %}class='active'{% endblock post_active %}
+{% load staticfiles %}
+{% block header_extends %}
+    <link rel="stylesheet" href=" {% static 'post/post.css' %} ">
+{% endblock header_extends %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h3>{{ post.title }}</h3>
+            <ul class='post-info-description'>
+                <li>作者：{{ post.author }}</li>
+                <li>
+                    <a href=" {% url 'type_post' post.post_type.id %} ">
+                        <p>分类 : {{ post.post_type }}</p>
+                    </a>
+                </li>
+                <li>发表日期 : {{ post.created_data|date:"Y-m-d H:m:s" }}</li>
+                <li>阅读 : {{ post.get_read_num }}</li>
+            </ul>
+            <div class='post-content'>{{ post.content|safe }}</div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="comment-area">
+            <h3 class="comment-area-title">提交评论</h3>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'update_comment' %}" method='POST' style='overflow:hidden'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="comment_text">{{ user.username }} 欢迎评论~</label>
+                            <textarea class='form-control' name="text" id="comment_text" rows='4'></textarea>
+                        </div>
+                        <input type="hidden" name='object_id' value="{{ post.pk }}">
+                        {% comment %} 这里不一样 {% endcomment %}
+                        <input type="hidden" name='content_type' value='labpost'>
+                        <input class='btn btn-primary' style='float:right' type="submit" value='评论'>
+                    </form>
+                {% else %}
+                    未登录,登陆后可评论
+                    <form action="{% url 'login' %}" method='POST'>
+                        {% csrf_token %}
+                        <span>用户名:</span>
+                        <input type="text" name='username'>
+                        <span>密码:</span>
+                        <input type="password" name='password'>
+                        <input type="submit" value='登陆'>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="comment-area">
+                <h3 class="comment-area-title">评论列表</h3>
+                {% for comment in comments %}
+                    {{ comment.user.username  }}
+                    ({{ comment.comment_time|date:"Y-m-d H:m:s" }}) :
+                    {{ comment.text }}
+                    <br>
+                {% empty %}
+                    暂无评论
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
