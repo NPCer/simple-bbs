@@ -55,7 +55,6 @@
                                 <textarea class='form-control' name="text" id="comment_text" rows='4'></textarea>
                             </div>
                             <input type="hidden" name='object_id' value="{{ post.pk }}">
-                            {% comment %} 这里不一样 {% endcomment %}
                             <input type="hidden" name='content_type' value='labpost'>
                             <input class='btn btn-primary' style='float:right' type="submit" value='评论'>
                         </form>
@@ -63,11 +62,12 @@
                         未登录,登陆后可评论
                         <form action="{% url 'login' %}" method='POST'>
                             {% csrf_token %}
+                            <br>
                             <span>用户名:</span>
-                            <input type="text" name='username'>
+                            <input type="text" name='username' class="form-control">
                             <span>密码:</span>
-                            <input type="password" name='password'>
-                            <input type="submit" value='登陆'>
+                            <input type="password" name='password' class="form-control">
+                            <input class='btn btn-primary' type="submit" style='margin-top: 1rem;float:right;' value='登陆'>
                         </form>
                     {% endif %}
                 </div>
