@@ -28,3 +28,8 @@ class LabPost(models.Model, ReadNumExpandMethod):
 
     class Meta:
         ordering = ['-created_data']
+
+
+class UploadFile(models.Model):
+    name = models.CharField(max_length=50)
+    file = models.FileField(upload_to = "uploads/%Y/%m")

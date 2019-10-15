@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from .views import home, login
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home, name='home'),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login, name='login'),
     path('comment/', include('comment.urls')),
-]
+    path('file/', include("file_upload.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
