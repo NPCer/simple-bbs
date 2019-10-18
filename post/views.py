@@ -4,6 +4,8 @@ from django.db import connection
 from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read
 from comment.models import Comment
+from file_upload.models import File
+from file_upload.forms import FileUploadModelForm
 # Create your views here.
 
 # 返回指定类型贴子简要（默认返回全部）
@@ -42,9 +44,15 @@ def post_detail(request, post_id):
     context = {}
     context['post'] = post
     context['comments'] = comments
+    # 处理上传附件
+    files = File.objects.all().order_by("-id")
+    context['files'] = files
+    context['form'] = FileUploadModelForm()
+    
     connection.close()
     response = render(request, 'post/post_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')
+
     return response
 
 

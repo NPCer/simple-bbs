@@ -6,18 +6,17 @@ from .models import File
 class FileUploadModelForm(forms.ModelForm):
     class Meta:
         model = File
-        fields = ('file', 'upload_method',)
+        fields = ('file', 'filename')
 
         widgets = {
-            'upload_method': forms.TextInput(attrs={'class': 'form-control'}),
+            'filename': forms.TextInput(attrs={'class': 'form-control'}),
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def clean_file(self):
         file = self.cleaned_data['file']
         ext = file.name.split('.')[-1].lower()
-        if ext not in ["jpg", "pdf", "xlsx"]:
+        if ext not in ["jpg", "pdf", "png",'gif']:
             raise forms.ValidationError(
-                "Only jpg, pdf and xlsx files are allowed.")
-        # return cleaned data is very important.
+                "只能上传jpg pdf png gif文件")
         return file

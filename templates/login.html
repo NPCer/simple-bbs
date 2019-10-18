@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+资源共享BBS | 登陆
+{% endblock title %}
+{% block content %}
+<div class='container'> 
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>登陆</h4>
+                </div>
+                <div class='post-content panel-body'>
+                    <form action="" method='POST'>
+                        {% csrf_token %}
+                        {% for field in login_form %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class='text-danger'>{{ field.errors.as_text }}</p>
+                        {% endfor %}
+                        <span class='pull-left text-danger'>{{ login_form.non_field_errors.as_text }}</span>
+                        <input type="submit"  value='登陆' class='btn btn-primary pull-right'>
+                    </form>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock content %}
