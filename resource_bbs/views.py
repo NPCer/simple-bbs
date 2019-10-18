@@ -7,10 +7,9 @@ from .forms import LoginForm
 def home(request):
     return render(request, 'home.html')
 
+
 # 如果是post就处理登陆表单并返回到跳转页面
 # 如果是get就显示登陆表单模版并跳转到首页
-
-
 def login(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)

@@ -49,7 +49,8 @@
                     <form action="{% url 'file_upload:model_form_upload' %}" method="post" enctype="multipart/form-data" >
                         {% csrf_token %}
                         {{ form.as_p }}
-                    <button class="btn btn-info form-control " type="submit" value="submit">上传附件</button>
+                        <button class="btn btn-info form-control " type="submit" value="submit">上传附件</button>
+                    </form>
                     {% else %}
                         未登录,登陆后可上传文件
                         <a href="{% url 'login' %}?from={{ request.get_full_path }}">登陆</a>
@@ -63,15 +64,16 @@
                     <h4>提交评论</h4>
                 </div>
                 <div class='post-content panel-body'>
+                    <!-- 登陆即可评论 -->
                     {% if user.is_authenticated %}
-                        <form action="{% url 'update_comment' %}" method='POST' style='overflow:hidden'>
+                        <form action="{% url 'update_comment' %}" method='post'>
                             {% csrf_token %}
                             <div class="form-group"><label for="comment_text" style="float: left; text-indent: 0em;">{{ user.username }} 欢迎评论~</label>
                                 <textarea class='form-control' name="text" id="comment_text" rows='4'></textarea>
                             </div>
                             <input type="hidden" name='object_id' value="{{ post.pk }}">
                             <input type="hidden" name='content_type' value='labpost'>
-                            <input class='btn btn-primary' style='float:right' type="submit" value='评论'>
+                            <input class='btn btn-primary pull-right'type="submit" value='评论'>
                         </form>
                     {% else %}
                         未登录,登陆后可评论
