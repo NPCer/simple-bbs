@@ -47,7 +47,7 @@ def post_detail(request, post_id):
     # 处理上传附件
     files = File.objects.all().order_by("-id")
     context['files'] = files
-    context['form'] = FileUploadModelForm()
+    context['file_form'] = FileUploadModelForm()
     
     connection.close()
     response = render(request, 'post/post_detail.html', context)

@@ -11,5 +11,6 @@ urlpatterns = [
 
     # View File List
     path('', views.file_list, name='file_list'),
+    path('up/',views.model_form_upload),
 
 ]
