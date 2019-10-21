@@ -51,9 +51,22 @@
                         {% for field in file_form %}
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {{ field }}
-                            <p class='text-danger'>{{ field.errors.as_text }}</p>
                         {% endfor %}
-                        <span class='pull-left text-danger'>{{ file_form.non_field_errors.as_text }}</span>
+                            <!-- <p class='text-danger'> -->
+                                <!-- {{ field.errors.as_text }} -->
+                                <!-- {% if 'file_form_error_format' in request.session %}
+                                    只能上传gif jpg png pdf后缀的文件
+                                {% endif %} -->
+                            <!-- </p> -->
+                        <span class='pull-left text-danger'>
+                            <!-- {{ file_form.non_field_errors.as_text }} -->
+                            {% if 'file_form_error' in request.session %}
+                                {% if request.session.file_form_error == 'YES' %}
+                                    只能上传小于50M gif jpg png pdf后缀的文件
+                                {% endif %}
+                            {% endif %}
+                        </span>
+                        <br>
                         <button class="btn btn-info form-control " type="submit" value="submit">上传附件</button>
                     </form>
                     {% else %}

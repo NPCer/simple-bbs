@@ -5,9 +5,8 @@ import uuid
 # Create your models here.
 # Define user directory path
 
+
 # 重命名上传文件名
-
-
 def user_directory_path(instance, filename):
     ext = filename.split('.')[-1]
     original_name = filename.split('.')[0]
@@ -21,5 +20,5 @@ class File(models.Model):
     # filename = models.CharField(default=,max_length=200);
     # upload_method = models.CharField(
     #     max_length=20, verbose_name="Upload Method")
-    filename = models.CharField(default='请输入文件名',
-        max_length=200, verbose_name="Upload Method")
+    filename = models.CharField(
+        max_length=200, verbose_name="请输入文件名")

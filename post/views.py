@@ -48,8 +48,7 @@ def post_detail(request, post_id):
     files = File.objects.all().order_by("-id")
     context['files'] = files
     context['file_form'] = FileUploadModelForm()
-    
-    connection.close()
+    connection.close() 
     response = render(request, 'post/post_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')
 

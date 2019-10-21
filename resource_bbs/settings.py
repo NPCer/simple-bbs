@@ -151,4 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 100MB 104857600
 # 250MB - 214958080
 # 500MB - 429916160
-MAX_UPLOAD_SIZE = "5242880"
+MAX_UPLOAD_SIZE = 5242
+
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"

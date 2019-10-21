@@ -24,14 +24,11 @@ def model_form_upload(request):
         file_form = FileUploadModelForm(request.POST, request.FILES)
         if file_form.is_valid():
             file_form.save()
-            print("成功验证")
+            # 手动传错误信息，模版中判断显示
+            request.session['file_form_error'] = 'NO'
             return redirect(referer)
         else:
-            print("验证失败")
-            return redirect(referer,)
-
-    # else:
+            request.session['file_form_error'] = 'YES'
+            return redirect(referer)
     file_form = FileUploadModelForm()
-    print("直接暴毙")
-    return render(request, 'file_upload/upload_form.html', {'file_form': file_form})
-    # return redirect(referer)
+    return render(request, reverse('home'))
