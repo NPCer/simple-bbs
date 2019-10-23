@@ -1,24 +1,29 @@
 from django.db import models
 import os
 import uuid
-
-# Create your models here.
-# Define user directory path
-
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 
 # 重命名上传文件名
+
+
 def user_directory_path(instance, filename):
-    ext = filename.split('.')[-1]
-    original_name = filename.split('.')[0]
-    filename = '{}-{}.{}'.format(original_name, uuid.uuid4().hex[:10], ext)
-    print(filename)
-    return os.path.join("files", filename)
+    return filename
 
 
 class File(models.Model):
-    file = models.FileField(upload_to=user_directory_path, null=True)
-    # filename = models.CharField(default=,max_length=200);
-    # upload_method = models.CharField(
-    #     max_length=20, verbose_name="Upload Method")
-    filename = models.CharField(
-        max_length=200, verbose_name="请输入文件名")
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.DO_NOTHING)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    files = models.FileField(upload_to=user_directory_path)
+    filename = models.CharField(max_length=200, verbose_name="请输入文件名")
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    upload_time = models.DateTimeField(auto_now_add=True)
+    file_size = models.DecimalField(max_digits=10, decimal_places=0)
+    file_path = models.CharField(max_length=500)
+
+    class Meta:
+        ordering = ['-upload_time']

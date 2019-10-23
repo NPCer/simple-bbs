@@ -38,8 +38,8 @@
                         <tbody>
                             {% for file in files %}
                             <tr>
-                                <td><a href="{{ file.file.url }}">{{ file.filename }}</a></td>
-                                <td>{{ file.file.size | filesizeformat }}</td>
+                                <td><a href="{{MEDIA_URL}}{{file.files}}">{{ file.filename }}</a></td>
+                                <td>{{ file.file_size | filesizeformat }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -48,18 +48,11 @@
                     {% if user.is_authenticated %}
                     <form action="{% url 'file_upload:model_form_upload' %}" method="post" enctype="multipart/form-data" >
                         {% csrf_token %}
-                        {% for field in file_form %}
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                        {% endfor %}
-                            <!-- <p class='text-danger'> -->
-                                <!-- {{ field.errors.as_text }} -->
-                                <!-- {% if 'file_form_error_format' in request.session %}
-                                    只能上传gif jpg png pdf后缀的文件
-                                {% endif %} -->
-                            <!-- </p> -->
+                        <label for="files">添加附件</label><br>
+                        <input class="form-control" accept="image/*,.pdf" type="file" name="files"/>
+                        <label for="filename">文件名</label><br>
+                        <input class="form-control" type="text" name="filename">
                         <span class='pull-left text-danger'>
-                            <!-- {{ file_form.non_field_errors.as_text }} -->
                             {% if 'file_form_error' in request.session %}
                                 {% if request.session.file_form_error == 'YES' %}
                                     只能上传小于50M gif jpg png pdf后缀的文件
@@ -67,6 +60,8 @@
                             {% endif %}
                         </span>
                         <br>
+                        <input type="hidden" name='object_id' value="{{ post.pk }}">
+                        <input type="hidden" name='content_type' value='labpost'>
                         <button class="btn btn-info form-control " type="submit" value="submit">上传附件</button>
                     </form>
                     {% else %}

@@ -5,7 +5,9 @@ from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read
 from comment.models import Comment
 from file_upload.models import File
-from file_upload.forms import FileUploadModelForm
+from django.core.files import File as to_file
+from collections import defaultdict
+
 # Create your views here.
 
 # 返回指定类型贴子简要（默认返回全部）
@@ -20,9 +22,7 @@ def post_list(request):
     # 判断是否有传入type，返回指定类型贴子
     if 'type' in request.GET.keys():
         post_types = []
-        # print(request.GET.getlist('type'))
         post_types = request.GET.getlist('type')
-        # print(post_types)
         # ['1', '2']
         # 返回所有在这个type中的post
         context['posts'] = LabPost.objects.filter(
@@ -31,7 +31,6 @@ def post_list(request):
         context['post_types_id'] = post_types
     connection.close()
     return render(request, 'post/post_list.html', context)
-
 
 # 返回指定id贴子内容
 def post_detail(request, post_id):
@@ -44,11 +43,12 @@ def post_detail(request, post_id):
     context = {}
     context['post'] = post
     context['comments'] = comments
-    # 处理上传附件
-    files = File.objects.all().order_by("-id")
+    file_lists=[]
+    # 显示上传附件
+    files = File.objects.filter(
+        content_type=post_content_type, object_id=post.pk)
     context['files'] = files
-    context['file_form'] = FileUploadModelForm()
-    connection.close() 
+    connection.close()
     response = render(request, 'post/post_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')
 

@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -151,6 +152,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 100MB 104857600
 # 250MB - 214958080
 # 500MB - 429916160
-MAX_UPLOAD_SIZE = 5242
+MAX_UPLOAD_SIZE = 5242880
 
-SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"

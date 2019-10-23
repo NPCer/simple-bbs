@@ -14,7 +14,6 @@ class LabPostType(models.Model):
 
 class LabPost(models.Model, ReadNumExpandMethod):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, default=1)
-    readed_num = models.IntegerField(default=0)
     title = models.CharField(max_length=30, default='在此输入贴子标题')
     content = RichTextField()
     post_type = models.ForeignKey(
@@ -28,8 +27,3 @@ class LabPost(models.Model, ReadNumExpandMethod):
 
     class Meta:
         ordering = ['-created_data']
-
-
-class UploadFile(models.Model):
-    name = models.CharField(max_length=50)
-    file = models.FileField(upload_to = "uploads/%Y/%m")

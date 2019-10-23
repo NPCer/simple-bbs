@@ -4,4 +4,4 @@ from .models import File
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-    list_display = ('filename', 'file')
+    list_display = ('filename', 'upload_time','user')
